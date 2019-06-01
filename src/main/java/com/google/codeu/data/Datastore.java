@@ -46,6 +46,26 @@ public class Datastore {
     datastore.put(messageEntity);
   }
 
+  /** CX: returns message from entity */
+  Message getMessage(Entity entity) {
+    try {
+      String idString = entity.getKey().getName();
+      UUID id = UUID.fromString(idString);
+      String user = (String) entity.getProperty("user");
+      String text = (String) entity.getProperty("text");
+      long timestamp = (long) entity.getProperty("timestamp");
+
+      Message message = new Message(id, user, text, timestamp);
+      return message;
+    } catch (Exception e) {
+      System.err.println("Error reading message.");
+      System.err.println(entity.toString());
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
   /**
    * Gets messages posted by a specific user.
    *
@@ -62,21 +82,26 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, user, text, timestamp);
-        messages.add(message);
-      } catch (Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
+      Message m = getMessage(entity);
+      messages.add(m);
     }
 
     return messages;
   }
+
+  /* CX: fetches all messages */
+  public List<Message> getAllMessages(){
+    List<Message> messages = new ArrayList<>();
+
+    Query query = new Query("Message")
+      .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+   for (Entity entity : results.asIterable()) {
+      Message m = getMessage(entity);
+      messages.add(m);
+    }
+
+    return messages;
+ }
 }
