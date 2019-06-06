@@ -30,6 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import java.net.URL;
+import java.net.MalformedURLException; 
+import java.net.URISyntaxException; 
+import java.util.regex.*; 
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -78,27 +81,60 @@ public class MessageServlet extends HttpServlet {
 
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none()); 
+    Message message = new Message(user, text);
 
-    //String regex = "(https?://\\S+\\.(png|jpg))"; 
-    String regex = "(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?";
-    String replacement = "<img src=\"$1\" />";
-    String textWithImagesReplaced = text.replaceAll(regex, replacement); //replaces urls w/ <img> elements
-
-    Message message = new Message(user, textWithImagesReplaced);
+    String url = extractURL(text);
+    
+    //checks url & creates <img> elements
+    if(isValidURL(url)) 
+    {
+        String regex = "(https?://\\S+\\.(png|jpg|gif))"; 
+        String replacement = "<img src=\"$1\" />";
+        String textWithImagesReplaced = text.replaceAll(regex, replacement); 
+        message = new Message(user, textWithImagesReplaced);
+    }
+ 
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
   }
 
-  public static boolean isValidURL(String url) 
+
+  //extracts & returns first url from string -- empty string otherwise
+  public String extractURL(String text)
+  {
+    String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+    Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
+    Matcher urlMatcher = pattern.matcher(text); 
+    String url = "";
+
+    if(urlMatcher.find())
+    {
+      url = text.substring(urlMatcher.start(0),
+                urlMatcher.end(0));
+    }
+
+    return url;
+  }
+
+  //checks url validity
+  public static boolean isValidURL(String url)
     { 
-        try { 
-            new URL(url).toURI(); 
-            return true; 
+         URL u = null;
+
+        try {  
+            u = new URL(url);  
+        } catch (MalformedURLException e) {  
+            return false;  
         }
-        catch (Exception e) { 
-            return false; 
-        } 
+
+        try {  
+            u.toURI();  
+        } catch (URISyntaxException e) {  
+            return false;  
+        }  
+
+        return true;  
     } 
 
 }
