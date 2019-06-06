@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import java.net.URL;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -76,11 +77,28 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none()); 
 
-    Message message = new Message(user, text);
+    //String regex = "(https?://\\S+\\.(png|jpg))"; 
+    String regex = "(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?";
+    String replacement = "<img src=\"$1\" />";
+    String textWithImagesReplaced = text.replaceAll(regex, replacement); //replaces urls w/ <img> elements
+
+    Message message = new Message(user, textWithImagesReplaced);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
   }
+
+  public static boolean isValidURL(String url) 
+    { 
+        try { 
+            new URL(url).toURI(); 
+            return true; 
+        }
+        catch (Exception e) { 
+            return false; 
+        } 
+    } 
+
 }
