@@ -23,6 +23,9 @@ limitations under the License.
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/user-page.css">
   <script src="/js/user-page-loader.js"></script>
+  <script src="http://cdn.ckeditor.com/4.7.2/basic/ckeditor.js"></script>
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </head>
 
 <body onload="buildUI();">
@@ -37,22 +40,33 @@ limitations under the License.
   <h1 id="page-title">User Page</h1>
 
   <div id="about-me-container">Loading...</div>
-  <div id="about-me-form" class="hidden">
-  <form action="/about" method="POST">
-    <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
-    <br/>
-    <input type="submit" value="Submit">
-  </form>
+  <p>Enter something about you: </p>
+
+  <div id="about-me-form">
+    <form action="/about" method="POST">
+      <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
+      <br />
+      <input type="submit" value="Submit">
+    </form>
   </div>
 
+
+  <p>Enter a new message: </p>
+
   <form id="message-form" action="/messages" method="POST" class="hidden">
-    Enter a new message:
     <br />
     <textarea name="text" id="message-input"></textarea>
     <br />
     <input type="submit" value="Submit">
   </form>
+
+
   <hr />
+
+  <script>
+    CKEDITOR.replace('text');
+    CKEDITOR.replace('about-me');
+  </script>
 
   <div id="message-container">Loading...</div>
 
