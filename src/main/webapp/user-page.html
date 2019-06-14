@@ -24,9 +24,17 @@ limitations under the License.
   <link rel="stylesheet" href="/css/user-page.css">
   <script src="/js/user-page-loader.js"></script>
   <script src="http://cdn.ckeditor.com/4.7.2/basic/ckeditor.js"></script>
+  <script src="/js/navigation-loader.js"></script>
+
+  <script>
+    function SetUp() {
+      addLoginOrLogoutLinkToNavigation();
+      buildUI();
+    }
+  </script>
 </head>
 
-<body onload="buildUI();">
+<body onload="SetUp();">
   <nav>
     <ul id="navigation">
       <li><a href="/">Home</a></li>
