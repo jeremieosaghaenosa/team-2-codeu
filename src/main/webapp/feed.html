@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/user-page.css">
 
+  <script src="/js/navigation-loader.js"></script>
   <script>
     // Fetch messages and add them to the page.
     function fetchMessages() {
@@ -54,6 +55,7 @@
 
     // Fetch data and populate the UI of the page.
     function buildUI() {
+      addLoginOrLogoutLinkToNavigation();
       fetchMessages();
     }
   </script>
