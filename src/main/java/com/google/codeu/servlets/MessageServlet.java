@@ -34,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.regex.*;
 
+
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
 public class MessageServlet extends HttpServlet {
@@ -81,8 +82,10 @@ public class MessageServlet extends HttpServlet {
 
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+
     Message message = new Message(user, text);
 
+    // Get URL from text 
     String url = extractURL(text);
 
     //checks url & creates <img> elements
@@ -136,5 +139,6 @@ public class MessageServlet extends HttpServlet {
 
         return true;
     }
+
 
 }
