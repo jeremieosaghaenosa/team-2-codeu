@@ -12,15 +12,15 @@
   <body>
     <div id="intro">
           <div id="yes"  style="display: none;">
-            <h1> YES THIS IS PROBABLY AN AVOCADO </h1>
+            <h1> YEAH, THIS LOOKS LIKE AN AVOCADO </h1>
           </div>
       
           <div id="maybe"  style="display: none;">
-            <h1> MAYBE? </h1>
+            <h1> HAD TO GLANCE TWICE... </h1>
           </div>
       
           <div id="no"  style="display: none;">
-            <h1> NO? </h1>
+            <h1> I DON'T SEE IT. </h1>
           </div>
       <h1>
           <%
