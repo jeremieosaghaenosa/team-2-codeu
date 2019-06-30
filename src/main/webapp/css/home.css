@@ -1,0 +1,71 @@
+body
+{
+    background-color: #E2FBDC;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	text-align: center;
+
+	font-family: "Arial Black", Gadget, sans-serif;
+}
+
+#title
+{
+	display: inline-block;
+	font-size: 35px;
+	line-height: 34px;
+  	height: 40px;
+
+  	padding-bottom: 30px;
+ }
+
+#logo
+{
+	padding-top: 15px;
+	width: 200px;
+}
+
+#main_links a:link, a:visited
+{
+	text-decoration: none;
+	font-size: 30px;
+	color: #103619;
+}
+
+#main_links a:hover, a:active {
+  background-color: red;
+}
+
+
+#main_links li 
+{
+	margin-bottom: 40px;
+}
+
+#main_links li:last-child {
+	margin-bottom: 0px;
+}
+
+
+#main_links 
+{
+	list-style-type: none;
+    width: 45%;
+    border: 1px solid red;
+    padding: 1em;
+    margin: 0 auto;
+
+    margin-top: 30px;
+}​
+
+/* Remove bullet points from navigation bar. */
+nav ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+/* Keep navigation menu on one line. */
+nav li {
+    display: inline-block;
+    margin-right: 10px
+}
