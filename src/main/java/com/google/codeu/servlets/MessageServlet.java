@@ -76,7 +76,7 @@ public class MessageServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
+      response.sendRedirect("/index.jsp");
       return;
     }
 
@@ -85,7 +85,7 @@ public class MessageServlet extends HttpServlet {
 
     Message message = new Message(user, text);
 
-    // Get URL from text 
+    // Get URL from text
     String url = extractURL(text);
 
     //checks url & creates <img> elements

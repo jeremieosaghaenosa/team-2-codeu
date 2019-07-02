@@ -36,10 +36,20 @@ public class Datastore {
 
   /** Stores the Message in Datastore. */
   public void storeMessage(Message message) {
+
+    /*
+    Need to check if it is a reply or not, if a reply then it is not a brand new entitiy
+    but an entity with parentId
+    */
+
+
     Entity messageEntity = new Entity("Message", message.getId().toString());
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
+    messageEntity.setProperty("like", message.getLike());
+    messageEntity.setProperty("dislike", message.getDislike());
+
 
     datastore.put(messageEntity);
   }
@@ -52,8 +62,12 @@ public class Datastore {
       String user = (String) entity.getProperty("user");
       String text = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");
+      long like = (long) entity.getProperty("like");
+      long dislike = (long) entity.getProperty("dislike");
 
-      Message message = new Message(id, user, text, timestamp);
+
+
+      Message message = new Message(id, user, text, timestamp, like, dislike);
       return message;
     } catch (Exception e) {
       System.err.println("Error reading message.");
@@ -122,13 +136,13 @@ public class Datastore {
   userEntity.setProperty("aboutMe", user.getAboutMe());
   datastore.put(userEntity);
  }
- 
+
  /**
   * Returns the User owned by the email address, or
   * null if no matching User was found.
   */
  public User getUser(String email) {
- 
+
   Query query = new Query("User")
     .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
   PreparedQuery results = datastore.prepare(query);
@@ -136,10 +150,10 @@ public class Datastore {
   if(userEntity == null) {
    return null;
   }
-  
+
   String aboutMe = (String) userEntity.getProperty("aboutMe");
   User user = new User(email, aboutMe);
-  
+
   return user;
  }
 
