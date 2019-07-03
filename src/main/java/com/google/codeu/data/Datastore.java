@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.codeu.data.Datastore;
 import java.util.*;
 
 /** Provides access to the data stored in Datastore. */
@@ -116,6 +117,72 @@ public class Datastore {
 
     return messages;
  }
+
+// Update like of a message
+ public List<Message> updateLike(long time, String msgtext){
+   List<Message> messages = new ArrayList<>();
+
+   Query query =
+       new Query("Message")
+           .setFilter(new Query.FilterPredicate("timestamp", FilterOperator.EQUAL, time));
+
+   PreparedQuery results = datastore.prepare(query);
+
+  for (Entity entity : results.asIterable()) {
+     Message m = getMessage(entity);
+     // System.out.println("Entity: " + entity);
+     // System.out.println("Entity: " + entity.getProperty("text"));
+     // System.out.println("Entity: " + entity.getProperty("like"));
+
+
+     String check = m.getText();
+     if(check.equals(msgtext)) {
+       entity.setProperty("like", Long.valueOf(Integer.parseInt(entity.getProperty("like").toString())+1));
+       datastore.put(entity);
+       // System.out.println("Entity: " + entity.getProperty("like"));
+     }
+     // System.out.println("Text: " + m.getText());
+     // System.out.println("Likes: " + m.getLike());
+   }
+
+   return messages;
+ }
+
+ // Update like of a message
+  public List<Message> updateDislike(long time, String msgtext){
+    List<Message> messages = new ArrayList<>();
+
+    Query query =
+        new Query("Message")
+            .setFilter(new Query.FilterPredicate("timestamp", FilterOperator.EQUAL, time));
+
+    PreparedQuery results = datastore.prepare(query);
+
+   for (Entity entity : results.asIterable()) {
+      Message m = getMessage(entity);
+      // System.out.println("Entity: " + entity);
+      // System.out.println("Entity: " + entity.getProperty("text"));
+      // System.out.println("Entity: " + entity.getProperty("like"));
+
+
+      String check = m.getText();
+      if(check.equals(msgtext)) {
+        entity.setProperty("dislike", Long.valueOf(Integer.parseInt(entity.getProperty("dislike").toString())+1));
+        datastore.put(entity);
+        // System.out.println("Entity: " + entity.getProperty("like"));
+      }
+      // System.out.println("Text: " + m.getText());
+      // System.out.println("Likes: " + m.getLike());
+    }
+
+    return messages;
+  }
+
+
+
+
+
+
 
  // This code below fetches all of the message stored in Datastore, and adds all of the users to a Set.
 

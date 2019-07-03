@@ -4,7 +4,6 @@ function fetchMessages() {
   fetch(url).then((response) => {
     return response.json();
   }).then((messages) => {
-    console.log(messages);
     const messageContainer = document.getElementById('message-container');
     if (messages.length == 0) {
       messageContainer.innerHTML = '<p>There are no posts yet.</p>';
@@ -46,7 +45,6 @@ function buildMessageDiv(message) {
   btn.innerHTML = "Like";
   btn.onclick = function() {
     like(message.timestamp, message.text)
-    console.log("!LIIKKEEE!");
     // Query q = new Query("Message").setFilter(new FilterPredicate("timestamp", FilterOperator.EQUAL, message.timestamp));
     //
     // console.log(q);
@@ -69,7 +67,6 @@ function buildMessageDiv(message) {
   btn.innerHTML = "Dislike";
   btn.onclick = function() {
     dislike(message.timestamp, message.text)
-    console.log("!DISSSSLIKEEE!");
   };
   buttonDiv.appendChild(btn);
 
@@ -77,7 +74,6 @@ function buildMessageDiv(message) {
   btn.innerHTML = "Reply";
   btn.onclick = function() {
     reply(message.timestamp, message.text)
-    console.log("!REEEEPLLYYY!");
   };
   buttonDiv.appendChild(btn);
 
@@ -95,6 +91,8 @@ function buildMessageDiv(message) {
   pic.setAttribute("height", "128");
   pic.setAttribute("alt", "Happy Avocado");
   imageDiv.appendChild(pic);
+  imageDiv.appendChild(document.createTextNode(message.like));
+
 
   var pic = document.createElement("IMG");
   pic.setAttribute("src", "img/sad_avocado.png");
@@ -102,6 +100,7 @@ function buildMessageDiv(message) {
   pic.setAttribute("height", "128");
   pic.setAttribute("alt", "Sad Avocado");
   imageDiv.appendChild(pic);
+  imageDiv.appendChild(document.createTextNode(message.dislike));
 
 
 
@@ -118,31 +117,49 @@ function buildMessageDiv(message) {
   return messageDiv;
 }
 
-function like(time, text) {
-  console.log("IFHNREVRR");
-  const url = '/like';
+function like(time, msgtext) {
+
+  var url = "/like";
+  url = url + "?date=" + time.toString() + "&text=" + msgtext;
   fetch(url).then((response) => {
     return response.json();
   }).then((messages) => {
-    console.log(messages);
     const messageContainer = document.getElementById('message-container');
+    if (messages.length == 0) {
+      messageContainer.innerHTML = '<p>There are no posts yet.</p>';
+    } else {
+      messageContainer.innerHTML = '';
+    }
+    messages.forEach((message) => {
+      const messageDiv = buildMessageDiv(message);
+      messageContainer.appendChild(messageDiv);
+    });
   });
+
 }
 
-function dislike(time, text) {
-  console.log("IFHNREVRR");
-  const url = '/like';
+function dislike(time, msgtext) {
+  var url = "/dislike";
+  url = url + "?date=" + time.toString() + "&text=" + msgtext;
   fetch(url).then((response) => {
     return response.json();
   }).then((messages) => {
-    console.log(messages);
     const messageContainer = document.getElementById('message-container');
+    if (messages.length == 0) {
+      messageContainer.innerHTML = '<p>There are no posts yet.</p>';
+    } else {
+      messageContainer.innerHTML = '';
+    }
+    messages.forEach((message) => {
+      const messageDiv = buildMessageDiv(message);
+      messageContainer.appendChild(messageDiv);
+    });
   });
+
 }
 
-function reply(time, text) {
-  console.log("IFHNREVRR");
-  const url = '/like';
+function reply(time, msgtext) {
+  const url = '/reply';
   fetch(url).then((response) => {
     return response.json();
   }).then((messages) => {
@@ -185,9 +202,9 @@ function buildUI() {
           var time = y[0].innerHTML;
           var message = z[0].innerHTML;
 
-          console.log(user);
-          console.log(time);
-          console.log(message);
+          // console.log(user);
+          // console.log(time);
+          // console.log(message);
         }
       });
 
@@ -208,14 +225,12 @@ function buildUI() {
           var time = y[0].innerHTML;
           var message = z[0].innerHTML;
 
-          console.log(user);
-          console.log(time);
-          console.log(message);
+          // console.log(user);
+          // console.log(time);
+          // console.log(message);
         }
       });
     }
-
-    // window.location.href = '/home.html';
 
 
   })

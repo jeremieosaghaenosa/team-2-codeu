@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
+import java.io.*;
 
 /**
  * Handles fetching all messages for the public feed.
@@ -34,10 +35,14 @@ public class MessageLike extends HttpServlet{
 
   response.setContentType("application/json");
 
-  List<Message> messages = datastore.getAllMessages();
+  String num = request.getParameter("date");
+  long time = Long.valueOf(num).longValue();
+	String msgtext = request.getParameter("text");
+  List<Message> messages = datastore.updateLike(time,msgtext);
+
+  messages = datastore.getAllMessages();
   Gson gson = new Gson();
   String json = gson.toJson(messages);
-
   response.getOutputStream().println(json);
  }
 }

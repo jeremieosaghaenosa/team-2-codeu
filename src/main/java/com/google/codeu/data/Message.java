@@ -71,6 +71,16 @@ public class Message {
   public long getDislike() {
     return dislike;
   }
+
+  public void setDislike(long dislike) {
+	   this.dislike = dislike;
+  }
+
+  public void setLike(long like) {
+  	this.like = like;
+  }
+
+
 /*
   public JButton getButton() {
     return button;
