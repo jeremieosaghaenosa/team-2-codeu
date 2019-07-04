@@ -72,8 +72,25 @@ function buildMessageDiv(message) {
 
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "Reply";
+  var hasClicked = false;
+
   btn.onclick = function() {
-    reply(message.timestamp, message.text)
+    // Create textbox to answer
+    if(!hasClicked) {
+      hasClicked = true;
+      var form = document.createElement("FORM");
+      form.method = "POST";
+      form.action = "/reply";
+      var area = document.createElement('TEXTAREA');
+      area.id = "text";
+      form.appendChild(area);
+      console.log(form);
+      buttonDiv.appendChild(form);
+      CKEDITOR.replace('text');
+      console.log("Hit reply button");
+    }
+
+
   };
   buttonDiv.appendChild(btn);
 
@@ -158,7 +175,7 @@ function dislike(time, msgtext) {
 
 }
 
-function reply(time, msgtext) {
+function reply(id) {
   const url = '/reply';
   fetch(url).then((response) => {
     return response.json();

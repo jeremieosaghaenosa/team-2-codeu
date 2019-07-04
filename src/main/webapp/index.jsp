@@ -1,36 +1,70 @@
-<%@ page import="com.google.appengine.api.users.UserService" %>
+ <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 
+
 <!DOCTYPE html>
+
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>CodeU Starter Project</title>
-    <link rel="stylesheet" href="/css/main.css">
-  </head>
-  <body>
-    <nav>
-        <ul id="navigation">
-          <li><a href="/">Home</a></li>
+
+<head>
+  <title>AvoAvo</title>
+  <!-- Imports Jquery -->
+  <link rel="stylesheet" href="css/landing.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="js/landing.js"></script>
+
+  <!-- Imports Fonts -->
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Dosis|Open+Sans');
+  </style>
+</head>
+
+
+<body>
+
+  <!-- Header that contains logo at the top of the page -->
+  <div>
+    <div>
+      <a href="/"><img src="img/menulogo.png" id="logoHeader"></a>
+      <ul class="menu">
+
 
       <%
-        UserService userService = UserServiceFactory.getUserService();
-        if (userService.isUserLoggedIn()) {
-          String username = userService.getCurrentUser().getEmail();
-      %>
-      <li><a href="/user-page.html?user=<%= username %>">Your Page</a></li>
-          <li><a href="/logout">Logout</a></li>
-      <% } else {   %>
-         <li><a href="/login">Login</a></li>
-      <% } %>
+                UserService userService = UserServiceFactory.getUserService();
+                if (userService.isUserLoggedIn()) {
+                  String username = userService.getCurrentUser().getEmail();
+              %>
+              <li id ="right"><a href="/user-page.html?user=<%= username %>">Your Page</a></li>
+                  <li id ="right"><a href="/logout">Logout</a></li>
+              <% } else {   %>
+                 <li id ="right"><a href="/login">Login</a></li>
+              <% } %>
 
-        </ul>
-      </nav>
-    <h1>CodeU Starter Project</h1>
-    <p>This is the CodeU starter project. Click the links above to login and visit your page.
-       You can post messages on your page, and you can visit other user pages if you have
-       their URL.</p>
-    <p>This is your code now! Feel free to make changes, and don't be afraid to get creative!
-       You could start by modifying this page to tell the world more about your team.</p>
-  </body>
+
+
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="grabSlice" class="button">
+      <ul id="links">
+        <li id ="center"><a href="/community.html">OUR COMMUNITY</a></li>
+        <!-- <br> -->
+        <li id ="center"><a href="/imaging.jsp">IS THIS AN AVOCADO?</a></li>
+        <!-- <br> -->
+        <li id ="center"><a href="/map.html" >CAN I GROW AVOCADOS?</a></li>
+        <!-- <br> -->
+        <li id ="center"><a href="/aboutus.html">BEHIND THE SITE</a></li>
+      </ul>
+  </div>
+  <!-- <h2>*FUN FACTS PLACE HOLDER*</h2> -->
+
+
+  <!-- powered by yam logo (just to look cool ;) ) -->
+  <img src="img/rightlogo.png" id="avoLove">
+
+
+</body>
+
 </html>

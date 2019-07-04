@@ -1,43 +1,121 @@
+/*
+ * Copyright 2019 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Datastore;
+import com.google.codeu.data.Message;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.regex.*;
 
-import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Message;
-import com.google.gson.Gson;
 
-/**
- * Handles fetching all messages for the public feed.
- */
+/** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/reply")
-public class MessageReply extends HttpServlet{
+public class MessageReply extends HttpServlet {
 
- private Datastore datastore;
+  private Datastore datastore;
 
- @Override
- public void init() {
-  datastore = new Datastore();
- }
+  @Override
+  public void init() {
+    datastore = new Datastore();
+  }
 
- /**
-  * Responds with a JSON representation of Message data for all users.
-  */
- @Override
- public void doGet(HttpServletRequest request, HttpServletResponse response)
-   throws IOException {
 
-  response.setContentType("application/json");
+  /** Stores a new {@link Message}. */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-  List<Message> messages = datastore.getAllMessages();
-  Gson gson = new Gson();
-  String json = gson.toJson(messages);
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.jsp");
+      return;
+    }
 
-  response.getOutputStream().println(json);
- }
+    String user = userService.getCurrentUser().getEmail();
+    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+
+    Message message = new Message(user, text);
+
+    // Get URL from text
+    String url = extractURL(text);
+
+    //checks url & creates <img> elements
+    if(isValidURL(url))
+    {
+        String regex = "(https?://\\S+\\.(png|jpg|gif))";
+        String replacement = "<img src=\"$1\" />";
+        String textWithImagesReplaced = text.replaceAll(regex, replacement);
+        message = new Message(user, textWithImagesReplaced);
+    }
+
+    datastore.storeMessage(message);
+
+    response.sendRedirect("/user-page.html?user=" + user);
+  }
+
+
+  //extracts & returns first url from string -- empty string otherwise
+  public String extractURL(String text)
+  {
+    String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+    Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
+    Matcher urlMatcher = pattern.matcher(text);
+    String url = "";
+
+    if(urlMatcher.find())
+    {
+      url = text.substring(urlMatcher.start(0),
+                urlMatcher.end(0));
+    }
+
+    return url;
+  }
+
+  //checks url validity
+  public static boolean isValidURL(String url)
+    {
+         URL u = null;
+
+        try {
+            u = new URL(url);
+        } catch (MalformedURLException e) {
+            return false;
+        }
+
+        try {
+            u.toURI();
+        } catch (URISyntaxException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
