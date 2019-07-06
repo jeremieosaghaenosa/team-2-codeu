@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.codeu.data.Datastore;
 import java.util.*;
 
 /** Provides access to the data stored in Datastore. */
@@ -36,10 +37,20 @@ public class Datastore {
 
   /** Stores the Message in Datastore. */
   public void storeMessage(Message message) {
+
+    /*
+    Need to check if it is a reply or not, if a reply then it is not a brand new entitiy
+    but an entity with parentId
+    */
+
+
     Entity messageEntity = new Entity("Message", message.getId().toString());
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
+    messageEntity.setProperty("like", message.getLike());
+    messageEntity.setProperty("dislike", message.getDislike());
+
 
     datastore.put(messageEntity);
   }
@@ -52,8 +63,12 @@ public class Datastore {
       String user = (String) entity.getProperty("user");
       String text = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");
+      long like = (long) entity.getProperty("like");
+      long dislike = (long) entity.getProperty("dislike");
 
-      Message message = new Message(id, user, text, timestamp);
+
+
+      Message message = new Message(id, user, text, timestamp, like, dislike);
       return message;
     } catch (Exception e) {
       System.err.println("Error reading message.");
@@ -103,6 +118,72 @@ public class Datastore {
     return messages;
  }
 
+// Update like of a message
+ public List<Message> updateLike(long time, String msgtext){
+   List<Message> messages = new ArrayList<>();
+
+   Query query =
+       new Query("Message")
+           .setFilter(new Query.FilterPredicate("timestamp", FilterOperator.EQUAL, time));
+
+   PreparedQuery results = datastore.prepare(query);
+
+  for (Entity entity : results.asIterable()) {
+     Message m = getMessage(entity);
+     // System.out.println("Entity: " + entity);
+     // System.out.println("Entity: " + entity.getProperty("text"));
+     // System.out.println("Entity: " + entity.getProperty("like"));
+
+
+     String check = m.getText();
+     if(check.equals(msgtext)) {
+       entity.setProperty("like", Long.valueOf(Integer.parseInt(entity.getProperty("like").toString())+1));
+       datastore.put(entity);
+       // System.out.println("Entity: " + entity.getProperty("like"));
+     }
+     // System.out.println("Text: " + m.getText());
+     // System.out.println("Likes: " + m.getLike());
+   }
+
+   return messages;
+ }
+
+ // Update like of a message
+  public List<Message> updateDislike(long time, String msgtext){
+    List<Message> messages = new ArrayList<>();
+
+    Query query =
+        new Query("Message")
+            .setFilter(new Query.FilterPredicate("timestamp", FilterOperator.EQUAL, time));
+
+    PreparedQuery results = datastore.prepare(query);
+
+   for (Entity entity : results.asIterable()) {
+      Message m = getMessage(entity);
+      // System.out.println("Entity: " + entity);
+      // System.out.println("Entity: " + entity.getProperty("text"));
+      // System.out.println("Entity: " + entity.getProperty("like"));
+
+
+      String check = m.getText();
+      if(check.equals(msgtext)) {
+        entity.setProperty("dislike", Long.valueOf(Integer.parseInt(entity.getProperty("dislike").toString())+1));
+        datastore.put(entity);
+        // System.out.println("Entity: " + entity.getProperty("like"));
+      }
+      // System.out.println("Text: " + m.getText());
+      // System.out.println("Likes: " + m.getLike());
+    }
+
+    return messages;
+  }
+
+
+
+
+
+
+
  // This code below fetches all of the message stored in Datastore, and adds all of the users to a Set.
 
  public Set<String> getUsers(){
@@ -122,13 +203,13 @@ public class Datastore {
   userEntity.setProperty("aboutMe", user.getAboutMe());
   datastore.put(userEntity);
  }
- 
+
  /**
   * Returns the User owned by the email address, or
   * null if no matching User was found.
   */
  public User getUser(String email) {
- 
+
   Query query = new Query("User")
     .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
   PreparedQuery results = datastore.prepare(query);
@@ -136,10 +217,10 @@ public class Datastore {
   if(userEntity == null) {
    return null;
   }
-  
+
   String aboutMe = (String) userEntity.getProperty("aboutMe");
   User user = new User(email, aboutMe);
-  
+
   return user;
  }
 

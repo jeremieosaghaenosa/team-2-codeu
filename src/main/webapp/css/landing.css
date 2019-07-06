@@ -1,0 +1,197 @@
+
+/*sets body as first layer; makes body fill page*/
+body {
+   z-index: 1;
+   margin-top: 0px;
+   margin-right: 0px;
+   margin-bottom: 0px;
+   margin-left: 0px
+}
+
+/*sets background images and automatically resizes it*/
+html {
+  background: url("/img/Avo3.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/*created menu bar with about us and how it works sections*/
+ul.menu {
+   opacity: 0;
+   z-index: 3;
+   position: absolute;
+   top: 0px;
+   width: 100%;
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   background-color: #b0ddc0;
+
+   /* box-shadow */
+   -webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 10px;
+   -moz-box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+   box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+
+   transition: opacity 1s ease-in-out;
+
+}
+
+
+/*places logo on top of menubar in upperleft corner*/
+#logoHeader {
+   opacity: 0;
+   position: absolute;
+   top: 0px;
+   float: left;
+   height: 48px;
+   z-index: 4;
+
+   /*animation for menu bar*/
+   -webkit-transition: all 1s;
+   -moz-transition: all 1s;
+   transition: all 1s;
+   cursor: pointer;
+
+   transition: opacity .5s ease-in-out;
+
+}
+
+#logoHeader:hover:not(.activeMenu) {
+   background-color: white;
+}
+
+#logoHeader:hover {
+   transform: scale(1.075);
+}
+
+/*floats menu bar options to the right*/
+#right {
+    float: right;
+}
+
+
+/*styles menu bar*/
+li a {
+   opacity: 0;
+   font-family: 'Open Sans', sans-serif;
+   display: block;
+   color: black;
+   text-align: center;
+   padding: 14px 14px;
+   text-decoration: none;
+
+   /*animation for menu bar*/
+   -webkit-transition: all 1s;
+   -moz-transition: all 1s;
+   transition: all 1s;
+   cursor: pointer;
+
+   transition: opacity 1s ease-in-out;
+
+}
+
+/*sets hover color*/
+li a:hover:not(.activeMenu) {
+  background-color: #c1e264;
+}
+
+/*sets hover animation style*/
+li a:hover {
+   transform: scale(1.1);
+}
+
+/*postions start button*/
+#grabSlice {
+   position: absolute;
+   top: 40%;
+   left: 35%;
+   /* text-align: center; */
+   /* display: inline-block; */
+   /* width: 20%; */
+
+   transition: opacity 1s ease-in-out;
+   opacity: 0;
+}
+
+/*styles start button*/
+.button {
+   opacity: 0;
+   background-color: #b0ddc0;
+   border: none;
+   color: white;
+   width: 25%;
+   padding: 15px 10px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 30px;
+   margin: 4px 2px;
+   -webkit-transition: all 1s;
+   -moz-transition: all 1s;
+   transition: all 1s;
+   cursor: pointer;
+   z-index: 3;
+
+   /*rounds box edges*/
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+
+   /* box-shadow */
+   -webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 10px;
+   -moz-box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+   box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+
+   transition: opacity 1s ease-in-out;
+
+}
+
+/*animated button*/
+.button:hover {
+   transform: scale(1.2);
+   background-color: #c1e264;
+}
+
+/*styles avocado logo*/
+#avoLove {
+   opacity: 0;
+   position: absolute;
+   right: 15px;
+   bottom: 15px;
+   width: 300px;
+   background-color: rgba(255, 255, 255, 0.5);
+
+   /*rounds box edges*/
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+
+   /* box-shadow */
+   -webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 10px;
+   -moz-box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+   box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+
+   transition: opacity 1s ease-in-out;
+}
+
+ul#links {
+display: inline-block;
+ list-style-type: none;
+padding-inline-start: 0px;
+overflow: hidden;
+padding: 5px;
+}
+
+h2 {
+  font-size: 100px;
+  position: absolute;
+  top: 10%;
+  left: 20%;
+
+
+  /* transition: opacity 1s ease-in-out;
+  opacity: 0; */
+}

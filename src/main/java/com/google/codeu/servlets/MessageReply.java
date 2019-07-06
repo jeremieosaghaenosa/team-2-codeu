@@ -36,8 +36,8 @@ import java.util.regex.*;
 
 
 /** Handles fetching and saving {@link Message} instances. */
-@WebServlet("/messages")
-public class MessageServlet extends HttpServlet {
+@WebServlet("/reply")
+public class MessageReply extends HttpServlet {
 
   private Datastore datastore;
 
@@ -46,29 +46,6 @@ public class MessageServlet extends HttpServlet {
     datastore = new Datastore();
   }
 
-  /**
-   * Responds with a JSON representation of {@link Message} data for a specific user. Responds with
-   * an empty array if the user is not provided.
-   */
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    response.setContentType("application/json");
-
-    String user = request.getParameter("user");
-
-    if (user == null || user.equals("")) {
-      // Request is invalid, return empty array
-      response.getWriter().println("[]");
-      return;
-    }
-
-    List<Message> messages = datastore.getMessages(user);
-    Gson gson = new Gson();
-    String json = gson.toJson(messages);
-
-    response.getWriter().println(json);
-  }
 
   /** Stores a new {@link Message}. */
   @Override

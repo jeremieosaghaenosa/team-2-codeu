@@ -17,6 +17,7 @@
 package com.google.codeu.data;
 
 import java.util.UUID;
+import javax.swing.JButton;
 
 /** A single message posted by a user. */
 public class Message {
@@ -25,20 +26,26 @@ public class Message {
   private String user;
   private String text;
   private long timestamp;
+  private long like = 0;
+  private long dislike = 0;
+  // private JButton button;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
   public Message(String user, String text) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis());
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), 0, 0);
   }
 
-  public Message(UUID id, String user, String text, long timestamp) {
+  public Message(UUID id, String user, String text, long timestamp, long like, long dislike) {
     this.id = id;
     this.user = user;
     this.text = text;
     this.timestamp = timestamp;
+    this.like = like;
+    this.dislike = dislike;
+    // this.button = button;
   }
 
   public UUID getId() {
@@ -56,4 +63,27 @@ public class Message {
   public long getTimestamp() {
     return timestamp;
   }
+
+  public long getLike() {
+    return like;
+  }
+
+  public long getDislike() {
+    return dislike;
+  }
+
+  public void setDislike(long dislike) {
+	   this.dislike = dislike;
+  }
+
+  public void setLike(long like) {
+  	this.like = like;
+  }
+
+
+/*
+  public JButton getButton() {
+    return button;
+  }
+*/
 }
