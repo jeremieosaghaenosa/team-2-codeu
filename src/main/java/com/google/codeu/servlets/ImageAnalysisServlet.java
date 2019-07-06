@@ -64,7 +64,7 @@ public class ImageAnalysisServlet extends HttpServlet {
     // display image + labels
     response.setContentType("text/html");
     out.println("<p>Here's the image you uploaded:</p>");
-    out.println("<a href=\"" + imageUrl + "\">");
+    out.println("<a href=\"" + imageUrl + "\" width=\"200\">");
     out.println("<img src=\"" + imageUrl + "\" />");
     out.println("</a>");
     out.println("<p>Here are the labels we extracted:</p>");

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="css/landing.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="js/landing.js"></script>
-
+  
   <!-- Imports Fonts -->
   <style>
     @import url('https://fonts.googleapis.com/css?family=Dosis|Open+Sans');
@@ -27,8 +27,6 @@
     <div>
       <a href="/"><img src="img/menulogo.png" id="logoHeader"></a>
       <ul class="menu">
-
-
       <%
                 UserService userService = UserServiceFactory.getUserService();
                 if (userService.isUserLoggedIn()) {
@@ -39,8 +37,6 @@
               <% } else {   %>
                  <li id ="right"><a href="/login">Login</a></li>
               <% } %>
-
-
 
       </ul>
     </div>
@@ -62,9 +58,10 @@
 
 
   <!-- powered by yam logo (just to look cool ;) ) -->
-  <img src="img/rightlogo.png" id="avoLoveR">
+  <img src="img/rightlogo.png" class="hideWithSize" id="avoLoveR">
 
-  <img src="img/leftlogo.png" id="avoLoveL">
+  <img src="img/leftlogo.png" class="hideWithSize" id="avoLoveL">
+
 
 
 </body>
