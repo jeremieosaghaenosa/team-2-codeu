@@ -14,7 +14,9 @@ function bringInMenu() {
 }
 
 function bringInAvo() {
-   $("#avoLove").css('opacity', '1');
+   $("#avoLoveL").css('opacity', '1');
+   $("#avoLoveR").css('opacity', '1');
+
 }
 
 

@@ -45,20 +45,6 @@ function buildMessageDiv(message) {
   btn.innerHTML = "Like";
   btn.onclick = function() {
     like(message.timestamp, message.text)
-    // Query q = new Query("Message").setFilter(new FilterPredicate("timestamp", FilterOperator.EQUAL, message.timestamp));
-    //
-    // console.log(q);
-    // PreparedQuery pq = datastore.prepare(q);
-    // Entity result = pq.asSingleEntity();
-    // console.log(result);
-    //
-    // console.log(message.timestamp);
-    // console.log(message.like);
-    // console.log(message.dislike);
-    // console.log(message.id);
-    // Entity task = datastore.get(message.id);
-    // console.log(task);
-
   };
 
   buttonDiv.appendChild(btn);
@@ -76,18 +62,41 @@ function buildMessageDiv(message) {
 
   btn.onclick = function() {
     // Create textbox to answer
-    if(!hasClicked) {
+    if (!hasClicked) {
+
+
+      var submit = document.createElement("BUTTON");
+      submit.innerHTML = "Submit";
+      buttonDiv.append(submit);
+
       hasClicked = true;
+
       var form = document.createElement("FORM");
       form.method = "POST";
       form.action = "/reply";
       var area = document.createElement('TEXTAREA');
       area.id = "text";
       form.appendChild(area);
-      console.log(form);
       buttonDiv.appendChild(form);
       CKEDITOR.replace('text');
-      console.log("Hit reply button");
+
+      for (var i in CKEDITOR.instances) {
+
+        CKEDITOR.instances[i].on('change', function() {
+          CKEDITOR.instances[i].updateElement();
+        });
+
+      }
+
+      submit.onclick = function() {
+        if (!document.getElementById("text").value == '') {
+          var msg = CKEDITOR.instances["text"].document.getBody().getText();
+          reply(message.id, msg);
+        }
+      }
+
+
+
     }
 
 
@@ -175,13 +184,22 @@ function dislike(time, msgtext) {
 
 }
 
-function reply(id) {
-  const url = '/reply';
+function reply(parentId, reply) {
+  var url = '/reply';
+  url = url + "?parent=" + parentId + "&text=" + reply;
   fetch(url).then((response) => {
     return response.json();
   }).then((messages) => {
-    console.log(messages);
     const messageContainer = document.getElementById('message-container');
+    if (messages.length == 0) {
+      messageContainer.innerHTML = '<p>There are no posts yet.</p>';
+    } else {
+      messageContainer.innerHTML = '';
+    }
+    messages.forEach((message) => {
+      const messageDiv = buildMessageDiv(message);
+      messageContainer.appendChild(messageDiv);
+    });
   });
 }
 
