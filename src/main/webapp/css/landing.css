@@ -105,9 +105,10 @@ li a:hover {
 
 /*postions start button*/
 #grabSlice {
-   position: absolute;
    top: 40%;
    left: 35%;
+   position: absolute;
+
    /* text-align: center; */
    /* display: inline-block; */
    /* width: 20%; */
@@ -156,10 +157,32 @@ li a:hover {
 }
 
 /*styles avocado logo*/
-#avoLove {
+#avoLoveR {
    opacity: 0;
    position: absolute;
    right: 15px;
+   bottom: 15px;
+   width: 300px;
+   background-color: rgba(255, 255, 255, 0.5);
+
+   /*rounds box edges*/
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+
+   /* box-shadow */
+   -webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 10px;
+   -moz-box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+   box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+
+   transition: opacity 1s ease-in-out;
+}
+
+/*styles avocado logo*/
+#avoLoveL {
+   opacity: 0;
+   position: absolute;
+   left: 15px;
    bottom: 15px;
    width: 300px;
    background-color: rgba(255, 255, 255, 0.5);

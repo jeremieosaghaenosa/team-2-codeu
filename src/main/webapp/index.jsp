@@ -62,7 +62,9 @@
 
 
   <!-- powered by yam logo (just to look cool ;) ) -->
-  <img src="img/rightlogo.png" id="avoLove">
+  <img src="img/rightlogo.png" id="avoLoveR">
+
+  <img src="img/leftlogo.png" id="avoLoveL">
 
 
 </body>

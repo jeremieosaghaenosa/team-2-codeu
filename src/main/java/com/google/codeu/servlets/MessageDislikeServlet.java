@@ -16,8 +16,8 @@ import java.io.*;
 /**
  * Handles fetching all messages for the public feed.
  */
-@WebServlet("/like")
-public class MessageLike extends HttpServlet{
+@WebServlet("/dislike")
+public class MessageDislikeServlet extends HttpServlet{
 
  private Datastore datastore;
 
@@ -38,7 +38,7 @@ public class MessageLike extends HttpServlet{
   String num = request.getParameter("date");
   long time = Long.valueOf(num).longValue();
 	String msgtext = request.getParameter("text");
-  List<Message> messages = datastore.updateLike(time,msgtext);
+  List<Message> messages = datastore.updateDislike(time,msgtext);
 
   messages = datastore.getAllMessages();
   Gson gson = new Gson();

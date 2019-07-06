@@ -55,6 +55,20 @@ public class Datastore {
     datastore.put(messageEntity);
   }
 
+// Store a reply message which is a child
+  public void storeChild(Message message, UUID parent) {
+
+    // Entity messageEntity = new Entity("Message", message.getId().toString(), parent.toString());
+    // messageEntity.setProperty("user", message.getUser());
+    // messageEntity.setProperty("text", message.getText());
+    // messageEntity.setProperty("timestamp", message.getTimestamp());
+    // messageEntity.setProperty("like", message.getLike());
+    // messageEntity.setProperty("dislike", message.getDislike());
+    //
+    //
+    // datastore.put(messageEntity);
+  }
+
   /** CX: returns message from entity */
   Message getMessage(Entity entity) {
     try {
