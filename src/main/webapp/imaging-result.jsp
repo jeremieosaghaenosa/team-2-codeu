@@ -11,18 +11,16 @@
   </head>
 
   <body>
-    <div>
-        <!--<a href="/"><img src="img/menulogo.png" id="logoHeader"></a>-->
-        <nav>
-          <ul id="navigation" class="menu">
-              <li class="right"><a href="/">Home</a></li>
-              <li class="right"><a href="/community.html">Our Community</a></li>
-              <li class="right"><a href="/imaging.jsp">Is This a..?</a></li>
-              <li class="right"><a href="/map.html">Can I Grow..?</a></li>
-              <li class="right"><a href="/aboutus.html">About Us</a></li>
-          </ul>
-        </nav>
-    </div>  
+      <!--<a href="/"><img src="img/menulogo.png" id="logoHeader"></a>-->
+      <nav>
+        <ul id="navigation" class="menu">
+            <li class="right"><a href="/">Home</a></li>
+            <li class="right"><a href="/community.html">Our Community</a></li>
+            <li class="right"><a href="/imaging.jsp">Is This a..?</a></li>
+            <li class="right"><a href="/map.html">Can I Grow..?</a></li>
+            <li class="right"><a href="/aboutus.html">About Us</a></li>
+        </ul>
+      </nav>
 
     <div id="intro">
           <div id="yes"  style="display: none;">

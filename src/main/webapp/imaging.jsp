@@ -12,7 +12,6 @@
     <script src="${pageContext.request.contextPath}/js/navigation-loader.js"></script>
   </head>
   <body>
-    <div>
      <!-- <a href="/"><img src="img/menulogo.png" id="logoHeader" float="left"></a> -->
       <nav>
         <ul id="navigation" class="menu">
@@ -23,7 +22,6 @@
           <li class="right"><a href="/aboutus.html">About Us</a></li>
         </ul>
       </nav>
-    </div>  
 
     <div id = "intro">
       <h1>IS THIS AN AVOCADO?</h1>

@@ -1,5 +1,6 @@
 /*default page formatting*/
 
+
 body
 {
 	padding-top: 50px;
@@ -11,6 +12,14 @@ body
 
 	font-family: 'Open Sans', sans-serif;
 }
+
+/* Style for the map */
+#map {
+	width: 500px;
+	height: 500px;
+	border: thin solid black;
+  }
+  
 
 #title
 {
