@@ -20,8 +20,8 @@ limitations under the License.
 <head>
   <title>User Page</title>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/user-page.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/user-page.css">
   <script src="/js/user-page-loader.js"></script>
   <script src="http://cdn.ckeditor.com/4.7.2/basic/ckeditor.js"></script>
   <script src="/js/navigation-loader.js"></script>
@@ -35,12 +35,14 @@ limitations under the License.
 </head>
 
 <body onload="SetUp();">
+  <!--<a href="/"><img src="img/menulogo.png" id="logoHeader"></a>-->
   <nav>
-    <ul id="navigation">
-      <li><a href="/">Home</a></li>
-      <li><a href="/aboutus.html">About Our Team</a></li>
-      <li><a href="/feed.html">Feed</a></li>
-      <li><a href="/community.html">Community Page</a></li>
+    <ul id="navigation" class="menu">
+        <li class="right"><a href="/">Home</a></li>
+        <li class="right"><a href="/community.html">Our Community</a></li>
+        <li class="right"><a href="/imaging.jsp">Is This a..?</a></li>
+        <li class="right"><a href="/map.html">Can I Grow..?</a></li>
+        <li class="right"><a href="/aboutus.html">About Us</a></li>
     </ul>
   </nav>
   <h1 id="page-title">User Page</h1>

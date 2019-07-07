@@ -115,6 +115,7 @@ li a:hover {
 
    transition: opacity 1s ease-in-out;
    opacity: 0;
+
 }
 
 /*styles start button*/
@@ -158,6 +159,7 @@ li a:hover {
 
 /*styles avocado logo*/
 #avoLoveR {
+   display: block;
    opacity: 0;
    position: absolute;
    right: 15px;
@@ -180,6 +182,7 @@ li a:hover {
 
 /*styles avocado logo*/
 #avoLoveL {
+   display: block;
    opacity: 0;
    position: absolute;
    left: 15px;
@@ -201,11 +204,11 @@ li a:hover {
 }
 
 ul#links {
-display: inline-block;
- list-style-type: none;
-padding-inline-start: 0px;
-overflow: hidden;
-padding: 5px;
+   display: inline-block;
+   list-style-type: none;
+   padding-inline-start: 0px;
+   overflow: hidden;
+   padding: 5px;
 }
 
 h2 {
@@ -218,3 +221,10 @@ h2 {
   /* transition: opacity 1s ease-in-out;
   opacity: 0; */
 }
+
+/*attempts to hide elements on smaller screen size?*/
+@media only screen and (max-width: 1000px) { 
+   .hideWithSize { 
+     display: none; 
+   } 
+ }

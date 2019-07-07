@@ -1,13 +1,25 @@
+/*default page formatting*/
+
+
 body
 {
+	padding-top: 50px;
     background-color: #E2FBDC;
 	width: 100%;
 	height: 100%;
 	margin: 0 auto;
 	text-align: center;
 
-	font-family: "Arial Black", Gadget, sans-serif;
+	font-family: 'Open Sans', sans-serif;
 }
+
+/* Style for the map */
+#map {
+	width: 500px;
+	height: 500px;
+	border: thin solid black;
+  }
+  
 
 #title
 {
@@ -18,45 +30,6 @@ body
 
   	padding-bottom: 30px;
  }
-
-#logo
-{
-	padding-top: 15px;
-	width: 200px;
-}
-
-#main_links a:link, a:visited
-{
-	text-decoration: none;
-	font-size: 30px;
-	color: #103619;
-}
-
-#main_links a:hover, a:active {
-  background-color: red;
-}
-
-
-#main_links li
-{
-	margin-bottom: 40px;
-}
-
-#main_links li:last-child {
-	margin-bottom: 0px;
-}
-
-
-#main_links
-{
-	list-style-type: none;
-    width: 45%;
-    border: 1px solid red;
-    padding: 1em;
-    margin: 0 auto;
-
-    margin-top: 30px;
-}​
 
 /* Remove bullet points from navigation bar. */
 nav ul {
@@ -69,3 +42,78 @@ nav li {
     display: inline-block;
     margin-right: 10px
 }
+
+/*styles menu bar*/
+li a {
+   font-family: 'Open Sans', sans-serif;
+   display: block;
+   color: black;
+   text-align: center;
+   padding: 14px 14px;
+   text-decoration: none;
+
+   /*animation for menu bar*/
+   -webkit-transition: all 1s;
+   -moz-transition: all 1s;
+   transition: all 1s;
+   cursor: pointer;
+
+   transition: opacity 1s ease-in-out;
+}
+
+/*sets hover color*/
+li a:hover:not(.activeMenu) {
+  background-color: #c1e264;
+}
+
+/*sets hover animation style*/
+li a:hover {
+   transform: scale(1.1);
+}
+
+ul.menu {
+	z-index: 3;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #b0ddc0;
+ 
+	/* box-shadow */
+	-webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 10px;
+	-moz-box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+	box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+ }
+ 
+ 
+ /*places logo on top of menubar in upperleft corner*/
+ #logoHeader {
+	position: absolute;
+	top: 0px;
+	float: left;
+	height: 48px;
+	z-index: 4;
+ 
+	/*animation for menu bar*/
+	-webkit-transition: all 1s;
+	-moz-transition: all 1s;
+	transition: all 1s;
+	cursor: pointer;
+ 
+ }
+
+ #logoHeader:hover:not(.activeMenu) {
+	background-color: white;
+ }
+ 
+ #logoHeader:hover {
+	transform: scale(1.075);
+ }
+ 
+ /*floats menu bar options to the right*/
+ #right {
+	 float: right;
+ }
