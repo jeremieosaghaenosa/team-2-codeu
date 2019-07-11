@@ -9,14 +9,15 @@ body
 	height: 100%;
 	margin: 0 auto;
 	text-align: center;
-
 	font-family: 'Open Sans', sans-serif;
 }
 
 /* Style for the map */
 #map {
-	width: 500px;
-	height: 500px;
+	display: inline-block;
+    width: 70%;
+    height: 700px;
+    position: 15px;
 	border: thin solid black;
   }
   
