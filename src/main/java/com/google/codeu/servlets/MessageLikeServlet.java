@@ -40,7 +40,7 @@ public class MessageLikeServlet extends HttpServlet{
 	String msgtext = request.getParameter("text");
   List<Message> messages = datastore.updateLike(time,msgtext);
 
-  messages = datastore.getAllMessages();
+  messages = datastore.getParentMessages();
   Gson gson = new Gson();
   String json = gson.toJson(messages);
   response.getOutputStream().println(json);

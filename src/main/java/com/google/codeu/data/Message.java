@@ -19,6 +19,7 @@ package com.google.codeu.data;
 import java.util.UUID;
 import javax.swing.JButton;
 
+
 /** A single message posted by a user. */
 public class Message {
 

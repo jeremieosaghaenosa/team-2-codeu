@@ -35,6 +35,8 @@ function buildMessageDiv(message) {
   bodyDiv.classList.add('message-body');
   bodyDiv.appendChild(document.createTextNode(message.text));
 
+
+
   const buttonDiv = document.createElement('div');
   buttonDiv.classList.add("button-div");
 
@@ -44,6 +46,8 @@ function buildMessageDiv(message) {
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "Like";
   btn.onclick = function() {
+    var id = message.like + message.id
+    document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
     like(message.timestamp, message.text)
   };
 
@@ -52,6 +56,8 @@ function buildMessageDiv(message) {
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "Dislike";
   btn.onclick = function() {
+    var id = message.dislike + message.id
+    document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
     dislike(message.timestamp, message.text)
   };
   buttonDiv.appendChild(btn);
@@ -77,7 +83,7 @@ function buildMessageDiv(message) {
       var area = document.createElement('TEXTAREA');
       area.id = "text";
       form.appendChild(area);
-      buttonDiv.appendChild(form);
+      replyDiv.appendChild(form);
       CKEDITOR.replace('text');
 
       for (var i in CKEDITOR.instances) {
@@ -92,6 +98,7 @@ function buildMessageDiv(message) {
         if (!document.getElementById("text").value == '') {
           var msg = CKEDITOR.instances["text"].document.getBody().getText();
           reply(message.id, msg);
+          hasClicked = false;
         }
       }
 
@@ -103,6 +110,28 @@ function buildMessageDiv(message) {
   };
   buttonDiv.appendChild(btn);
 
+
+  const replyDiv = document.createElement('div');
+  replyDiv.classList.add("button-div");
+
+  var btn = document.createElement("BUTTON");
+  btn.innerHTML = "Close Replies";
+  btn.onclick = function() {
+    fetchMessages();
+  };
+  replyDiv.appendChild(btn);
+
+
+  var btn = document.createElement("BUTTON");
+  btn.innerHTML = "See Replies";
+  var hasClick = false;
+  btn.onclick = function() {
+    if (!hasClick) {
+      hasClick = true;
+      children(message.id, imageDiv);
+    }
+  };
+  replyDiv.appendChild(btn);
 
 
   const imageDiv = document.createElement('div');
@@ -117,7 +146,10 @@ function buildMessageDiv(message) {
   pic.setAttribute("height", "128");
   pic.setAttribute("alt", "Happy Avocado");
   imageDiv.appendChild(pic);
-  imageDiv.appendChild(document.createTextNode(message.like));
+  var likecounter = document.createElement("span");
+  likecounter.setAttribute("id", message.like + message.id);
+  likecounter.textContent = message.like;
+  imageDiv.appendChild(likecounter);
 
 
   var pic = document.createElement("IMG");
@@ -126,8 +158,95 @@ function buildMessageDiv(message) {
   pic.setAttribute("height", "128");
   pic.setAttribute("alt", "Sad Avocado");
   imageDiv.appendChild(pic);
-  imageDiv.appendChild(document.createTextNode(message.dislike));
+  var dislikecounter = document.createElement("span");
+  dislikecounter.setAttribute("id", message.dislike + message.id);
+  dislikecounter.textContent = message.dislike;
+  imageDiv.appendChild(dislikecounter);
 
+
+
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add("message-div");
+  messageDiv.appendChild(headerDiv);
+  messageDiv.appendChild(bodyDiv);
+  messageDiv.appendChild(buttonDiv);
+  messageDiv.appendChild(replyDiv);
+  messageDiv.appendChild(imageDiv);
+
+
+  return messageDiv;
+}
+
+
+function buildReply(message) {
+  const usernameDiv = document.createElement('div');
+  usernameDiv.classList.add("left-align");
+  usernameDiv.appendChild(document.createTextNode(message.user));
+
+  const timeDiv = document.createElement('div');
+  timeDiv.classList.add('right-align');
+  timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
+
+  const headerDiv = document.createElement('div');
+  headerDiv.classList.add('message-headedr');
+  headerDiv.appendChild(usernameDiv);
+  headerDiv.appendChild(timeDiv);
+
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add('message-body');
+  bodyDiv.appendChild(document.createTextNode(message.text));
+
+  const buttonDiv = document.createElement('div');
+  buttonDiv.classList.add("button-div");
+
+  var br = document.createElement("br");
+  buttonDiv.appendChild(br);
+
+  var btn = document.createElement("BUTTON");
+  btn.innerHTML = "Like";
+  btn.onclick = function() {
+    var id = message.like + message.id
+    document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
+    like(message.timestamp, message.text)
+  };
+
+  buttonDiv.appendChild(btn);
+
+  var btn = document.createElement("BUTTON");
+  btn.innerHTML = "Dislike";
+  btn.onclick = function() {
+    var id = message.dislike + message.id
+    document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
+    dislike(message.timestamp, message.text)
+  };
+  buttonDiv.appendChild(btn);
+
+
+  const imageDiv = document.createElement('div');
+  imageDiv.classList.add("image-div");
+
+  var pic = document.createElement("IMG");
+  pic.setAttribute("src", "img/happy_avocado.png");
+  pic.setAttribute("width", "50");
+  pic.setAttribute("height", "28");
+  pic.setAttribute("alt", "Happy Avocado");
+  imageDiv.appendChild(pic);
+  var likecounter = document.createElement("span");
+  likecounter.setAttribute("id", message.like + message.id);
+  likecounter.textContent = message.like;
+  imageDiv.appendChild(likecounter);
+
+
+  var pic = document.createElement("IMG");
+  pic.setAttribute("src", "img/sad_avocado.png");
+  pic.setAttribute("width", "50");
+  pic.setAttribute("height", "28");
+  pic.setAttribute("alt", "Sad Avocado");
+  imageDiv.appendChild(pic);
+  var dislikecounter = document.createElement("span");
+  dislikecounter.setAttribute("id", message.dislike + message.id);
+  dislikecounter.textContent = message.dislike;
+  imageDiv.appendChild(dislikecounter);
 
 
   const messageDiv = document.createElement('div');
@@ -137,11 +256,15 @@ function buildMessageDiv(message) {
   messageDiv.appendChild(buttonDiv);
   messageDiv.appendChild(imageDiv);
 
-
-
+  messageDiv.style.paddingLeft = "50px";
 
   return messageDiv;
 }
+
+
+
+
+
 
 function like(time, msgtext) {
 
@@ -149,18 +272,7 @@ function like(time, msgtext) {
   url = url + "?date=" + time.toString() + "&text=" + msgtext;
   fetch(url).then((response) => {
     return response.json();
-  }).then((messages) => {
-    const messageContainer = document.getElementById('message-container');
-    if (messages.length == 0) {
-      messageContainer.innerHTML = '<p>There are no posts yet.</p>';
-    } else {
-      messageContainer.innerHTML = '';
-    }
-    messages.forEach((message) => {
-      const messageDiv = buildMessageDiv(message);
-      messageContainer.appendChild(messageDiv);
-    });
-  });
+  }).then((messages) => {});
 
 }
 
@@ -169,18 +281,7 @@ function dislike(time, msgtext) {
   url = url + "?date=" + time.toString() + "&text=" + msgtext;
   fetch(url).then((response) => {
     return response.json();
-  }).then((messages) => {
-    const messageContainer = document.getElementById('message-container');
-    if (messages.length == 0) {
-      messageContainer.innerHTML = '<p>There are no posts yet.</p>';
-    } else {
-      messageContainer.innerHTML = '';
-    }
-    messages.forEach((message) => {
-      const messageDiv = buildMessageDiv(message);
-      messageContainer.appendChild(messageDiv);
-    });
-  });
+  }).then((messages) => {});
 
 }
 
@@ -204,7 +305,18 @@ function reply(parentId, reply) {
 }
 
 
-
+function children(parentId, childrenDiv) {
+  var url = '/child';
+  url = url + "?parent=" + parentId;
+  fetch(url).then((response) => {
+    return response.json();
+  }).then((messages) => {
+    messages.forEach((message) => {
+      const messageDiv = buildReply(message);
+      childrenDiv.appendChild(messageDiv)
+    });
+  });
+}
 
 
 
@@ -215,59 +327,5 @@ function buildUI() {
   addLoginOrLogoutLinkToNavigation();
   fetchMessages();
 
-
-  document.getElementById("message-container").addEventListener("click", function(e) {
-    // e.target will be the item that was clicked on
-    // e.target.style.color = "#F00";
-    // console.log(e.path);
-
-    // If they click username or date then e.path.length=9
-    // Message-div is e.path[3]
-    // Get innerhtml
-
-    if (e.path.length == 9) {
-
-      Object.keys(e.path).forEach(function(key) {
-        if (key == 2) {
-          var x = e.path[key].getElementsByClassName("left-align");
-          var y = e.path[key].getElementsByClassName("right-align");
-          var z = e.path[key].getElementsByClassName("message-body");
-
-          var user = x[0].innerHTML;
-          var time = y[0].innerHTML;
-          var message = z[0].innerHTML;
-
-          // console.log(user);
-          // console.log(time);
-          // console.log(message);
-        }
-      });
-
-    }
-
-
-    // If they click mssg then e.path.length=8
-    // Message-div is e.path[2]
-    // Get innerhtml
-    if (e.path.length == 8) {
-      Object.keys(e.path).forEach(function(key) {
-        if (key == 1) {
-          var x = e.path[key].getElementsByClassName("left-align");
-          var y = e.path[key].getElementsByClassName("right-align");
-          var z = e.path[key].getElementsByClassName("message-body");
-
-          var user = x[0].innerHTML;
-          var time = y[0].innerHTML;
-          var message = z[0].innerHTML;
-
-          // console.log(user);
-          // console.log(time);
-          // console.log(message);
-        }
-      });
-    }
-
-
-  })
 
 }

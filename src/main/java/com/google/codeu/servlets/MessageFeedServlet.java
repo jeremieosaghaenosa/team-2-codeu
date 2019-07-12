@@ -17,14 +17,14 @@ import com.google.gson.Gson;
  */
 @WebServlet("/feed")
 public class MessageFeedServlet extends HttpServlet{
-  
+
  private Datastore datastore;
 
  @Override
  public void init() {
   datastore = new Datastore();
  }
- 
+
  /**
   * Responds with a JSON representation of Message data for all users.
   */
@@ -33,11 +33,11 @@ public class MessageFeedServlet extends HttpServlet{
    throws IOException {
 
   response.setContentType("application/json");
-  
-  List<Message> messages = datastore.getAllMessages();
+
+  List<Message> messages = datastore.getParentMessages();
   Gson gson = new Gson();
   String json = gson.toJson(messages);
-  
+
   response.getOutputStream().println(json);
  }
 }
