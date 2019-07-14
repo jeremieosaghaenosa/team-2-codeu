@@ -1,5 +1,6 @@
 <%@ page import = "java.util.Map" %>
 <%@ page import = "java.util.HashMap" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -31,10 +32,15 @@
       
           <div id="maybe"  style="display: none;">
             <h1> HAD TO GLANCE TWICE... </h1>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/bE4C8a48o1E" frameborder="0" allow="accelerometer; 
+              encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
       
           <div id="no"  style="display: none;">
             <h1> I DON'T SEE IT. </h1>
+
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/umDr0mPuyQc" frameborder="0" allow="accelerometer; 
+              encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
       <h1>
           <%
@@ -49,6 +55,19 @@
               }
           </script>
       </h1>
+
+      <h2>Your uploaded image & extracted labels: </h2>
+      <%
+        out.println("<a href=\"" + (String)request.getAttribute("imageUrl") + "\" width=\"200\" />");
+        out.println("<img src=\"" + (String)request.getAttribute("imageUrl") + "\" />");
+        out.println("<ul style=\"list-style-type:none;\">");
+        Map<String,String> map = (HashMap<String,String>)request.getAttribute("labelMap");
+            for (Map.Entry entry : map.entrySet()) {
+              out.println("<li>" + entry.getKey() + " -> " + entry.getValue() );
+        }
+        out.println("</ul>"); 
+      %>
+      
     </div>
 
   </body>

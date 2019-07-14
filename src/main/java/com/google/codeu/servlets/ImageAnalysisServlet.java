@@ -60,26 +60,30 @@ public class ImageAnalysisServlet extends HttpServlet {
     byte[] blobBytes = getBlobBytes(blobKey);
     List<EntityAnnotation> imageLabels = getImageLabels(blobBytes);
     float avocadoScore = 0;
+
+    request.setAttribute("imageUrl", imageUrl);
+    Map<String, String> labelMap = new HashMap<>();
     
     // display image + labels
+    /*
     response.setContentType("text/html");
     out.println("<p>Here's the image you uploaded:</p>");
     out.println("<a href=\"" + imageUrl + "\" width=\"200\">");
     out.println("<img src=\"" + imageUrl + "\" />");
     out.println("</a>");
     out.println("<p>Here are the labels we extracted:</p>");
-    out.println("<ul style=\"list-style-type:none;\">");
+    out.println("<ul style=\"list-style-type:none;\">"); */
       for(EntityAnnotation label : imageLabels){
-        out.println("<li>" + label.getDescription() + " " + label.getScore());
-
+        //out.println("<li>" + label.getDescription() + " " + label.getScore());
+        labelMap.put(label.getDescription(), String.valueOf(label.getScore()));
         if(label.getDescription().equals("Avocado"))
         {
           avocadoScore = label.getScore();
         }
       }
-    out.println("</ul>"); 
+    //out.println("</ul>"); 
 
-     //EVALUATE???
+     request.setAttribute("labelMap", labelMap);
 
      //Servlet JSP communication
 
