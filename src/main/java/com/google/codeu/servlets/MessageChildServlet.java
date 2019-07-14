@@ -1,9 +1,8 @@
 package com.google.codeu.servlets;
 
-import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.annotation.WebServlet;
+import com.google.appengine.api.datastore.Key;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,12 +11,23 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import java.io.*;
+import java.util.*;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import java.io.IOException;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
+
 
 /**
  * Handles fetching all messages for the public feed.
  */
-@WebServlet("/dislike")
-public class MessageDislikeServlet extends HttpServlet{
+@WebServlet("/child")
+public class MessageChildServlet extends HttpServlet{
 
  private Datastore datastore;
 
@@ -35,12 +45,20 @@ public class MessageDislikeServlet extends HttpServlet{
 
   response.setContentType("application/json");
 
-  String num = request.getParameter("date");
-  long time = Long.valueOf(num).longValue();
-	String msgtext = request.getParameter("text");
-  List<Message> messages = datastore.updateDislike(time,msgtext);
+  UserService userService = UserServiceFactory.getUserService();
+  if (!userService.isUserLoggedIn()) {
+    response.sendRedirect("/index.jsp");
+    return;
+  }
 
-  messages = datastore.getParentMessages();
+  String num = request.getParameter("parent");
+  UUID parent = UUID.fromString(num);
+
+
+  Key parentKey = datastore.getParentKey(parent);
+
+
+  List<Message> messages = datastore.getChildMessages(parentKey);
   Gson gson = new Gson();
   String json = gson.toJson(messages);
   response.getOutputStream().println(json);

@@ -19,6 +19,8 @@ package com.google.codeu.data;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -50,24 +52,47 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("like", message.getLike());
     messageEntity.setProperty("dislike", message.getDislike());
+    messageEntity.setProperty("id", "Parent");
 
 
     datastore.put(messageEntity);
   }
 
 // Store a reply message which is a child
-  public void storeChild(Message message, UUID parent) {
+ public void storeChild(Message message, Key parentKey) {
+   Entity messageEntity = new Entity("Message", message.getId().toString(), parentKey);
+   messageEntity.setProperty("user", message.getUser());
+   messageEntity.setProperty("text", message.getText());
+   messageEntity.setProperty("timestamp", message.getTimestamp());
+   messageEntity.setProperty("like", message.getLike());
+   messageEntity.setProperty("dislike", message.getDislike());
+   messageEntity.setProperty("id", parentKey);
 
-    // Entity messageEntity = new Entity("Message", message.getId().toString(), parent.toString());
-    // messageEntity.setProperty("user", message.getUser());
-    // messageEntity.setProperty("text", message.getText());
-    // messageEntity.setProperty("timestamp", message.getTimestamp());
-    // messageEntity.setProperty("like", message.getLike());
-    // messageEntity.setProperty("dislike", message.getDislike());
-    //
-    //
-    // datastore.put(messageEntity);
+   datastore.put(messageEntity);
+ }
+
+
+// Returns ParentKey of message
+  public Key getParentKey(UUID parent) {
+//    List<Message> messages = new ArrayList<>();
+
+    Query query =
+        new Query("Message")
+            .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, "Parent"))
+            .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+        Message m = getMessage(entity);
+
+        String check = m.getId().toString();
+        if(check.equals(parent.toString())) {
+          return (entity.getKey());
+        }
+    }
+    return KeyFactory.createKey("Message", 1);
   }
+
 
   /** CX: returns message from entity */
   Message getMessage(Entity entity) {
@@ -116,8 +141,10 @@ public class Datastore {
     return messages;
   }
 
+
+
   /* CX: fetches all messages */
-  public List<Message> getAllMessages(){
+  public List<Message> getParentMessages(){
     List<Message> messages = new ArrayList<>();
 
     Query query = new Query("Message")
@@ -125,12 +152,42 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
 
    for (Entity entity : results.asIterable()) {
-      Message m = getMessage(entity);
-      messages.add(m);
+     Message m = getMessage(entity);
+     String check = entity.getProperty("id").toString();
+
+     if(check.equals("Parent")) {
+       messages.add(m);
+     }
     }
 
     return messages;
  }
+
+ /* CX: fetches children messages */
+ public List<Message> getChildMessages(Key parentKey){
+   List<Message> messages = new ArrayList<>();
+
+
+
+   Query query =
+       new Query("Message").addSort("timestamp", SortDirection.DESCENDING)
+           .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, parentKey));
+
+   PreparedQuery results = datastore.prepare(query);
+
+
+   for (Entity entity : results.asIterable()) {
+      Message m = getMessage(entity);
+      String check = entity.getProperty("id").toString();
+
+      if(entity.getParent().equals(parentKey)) {
+        messages.add(m);
+      }
+
+    }
+
+   return messages;
+}
 
 // Update like of a message
  public List<Message> updateLike(long time, String msgtext){
@@ -144,19 +201,14 @@ public class Datastore {
 
   for (Entity entity : results.asIterable()) {
      Message m = getMessage(entity);
-     // System.out.println("Entity: " + entity);
-     // System.out.println("Entity: " + entity.getProperty("text"));
-     // System.out.println("Entity: " + entity.getProperty("like"));
 
 
      String check = m.getText();
      if(check.equals(msgtext)) {
        entity.setProperty("like", Long.valueOf(Integer.parseInt(entity.getProperty("like").toString())+1));
        datastore.put(entity);
-       // System.out.println("Entity: " + entity.getProperty("like"));
      }
-     // System.out.println("Text: " + m.getText());
-     // System.out.println("Likes: " + m.getLike());
+
    }
 
    return messages;
@@ -174,19 +226,14 @@ public class Datastore {
 
    for (Entity entity : results.asIterable()) {
       Message m = getMessage(entity);
-      // System.out.println("Entity: " + entity);
-      // System.out.println("Entity: " + entity.getProperty("text"));
-      // System.out.println("Entity: " + entity.getProperty("like"));
 
 
       String check = m.getText();
       if(check.equals(msgtext)) {
         entity.setProperty("dislike", Long.valueOf(Integer.parseInt(entity.getProperty("dislike").toString())+1));
         datastore.put(entity);
-        // System.out.println("Entity: " + entity.getProperty("like"));
       }
-      // System.out.println("Text: " + m.getText());
-      // System.out.println("Likes: " + m.getLike());
+
     }
 
     return messages;

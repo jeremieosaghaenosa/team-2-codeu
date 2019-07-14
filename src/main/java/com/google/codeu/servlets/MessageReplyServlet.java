@@ -1,6 +1,8 @@
 package com.google.codeu.servlets;
 
 import javax.servlet.annotation.WebServlet;
+import com.google.appengine.api.datastore.Key;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import org.jsoup.safety.Whitelist;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+
 
 
 /**
@@ -54,18 +57,12 @@ public class MessageReplyServlet extends HttpServlet{
   String msgtext = Jsoup.clean(request.getParameter("text"), Whitelist.none());
   Message message = new Message(user, msgtext);
 
-  System.out.println(parent);
-  System.out.println(message.getUser());
-  System.out.println(message.getText());
-  System.out.println(message.getId());
-  System.out.println(message.getTimestamp());
 
 
+  Key parentKey = datastore.getParentKey(parent);
+  datastore.storeChild(message,parentKey);
 
-
-  // datastore.storeChild(message,parent);
-
-  List<Message> messages = datastore.getAllMessages();
+  List<Message> messages = datastore.getParentMessages();
   Gson gson = new Gson();
   String json = gson.toJson(messages);
   response.getOutputStream().println(json);
