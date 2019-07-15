@@ -40,7 +40,8 @@ public class MapsServlet extends HttpServlet{
             String[] cells = line.split(",");
             double lat = Double.parseDouble(cells[0]);
             double lng = Double.parseDouble(cells[1]);
-            dataJSON.add(gson.toJsonTree(new MapLocation(lat, lng)));
+            double population = Double.parseDouble(cells[2]);
+            dataJSON.add(gson.toJsonTree(new MapLocation(lat, lng, population)));
         }
         scanner.close();
     }
