@@ -46,7 +46,7 @@ function buildMessageDiv(message) {
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "Like";
   btn.onclick = function() {
-    var id = message.like + message.id
+    var id = message.id + "good";
     document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
     like(message.timestamp, message.text)
   };
@@ -56,7 +56,7 @@ function buildMessageDiv(message) {
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "Dislike";
   btn.onclick = function() {
-    var id = message.dislike + message.id
+    var id = message.id + "bad";
     document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
     dislike(message.timestamp, message.text)
   };
@@ -147,7 +147,7 @@ function buildMessageDiv(message) {
   pic.setAttribute("alt", "Happy Avocado");
   imageDiv.appendChild(pic);
   var likecounter = document.createElement("span");
-  likecounter.setAttribute("id", message.like + message.id);
+  likecounter.setAttribute("id", message.id + "good");
   likecounter.textContent = message.like;
   imageDiv.appendChild(likecounter);
 
@@ -159,7 +159,7 @@ function buildMessageDiv(message) {
   pic.setAttribute("alt", "Sad Avocado");
   imageDiv.appendChild(pic);
   var dislikecounter = document.createElement("span");
-  dislikecounter.setAttribute("id", message.dislike + message.id);
+  dislikecounter.setAttribute("id", message.id + "bad");
   dislikecounter.textContent = message.dislike;
   imageDiv.appendChild(dislikecounter);
 
@@ -205,7 +205,7 @@ function buildReply(message) {
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "Like";
   btn.onclick = function() {
-    var id = message.like + message.id
+    var id = message.id + "good";
     document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
     like(message.timestamp, message.text)
   };
@@ -215,7 +215,7 @@ function buildReply(message) {
   var btn = document.createElement("BUTTON");
   btn.innerHTML = "Dislike";
   btn.onclick = function() {
-    var id = message.dislike + message.id
+    var id = message.id + "bad";
     document.getElementById(id).textContent = parseInt(document.getElementById(id).textContent) + 1;
     dislike(message.timestamp, message.text)
   };
@@ -232,7 +232,7 @@ function buildReply(message) {
   pic.setAttribute("alt", "Happy Avocado");
   imageDiv.appendChild(pic);
   var likecounter = document.createElement("span");
-  likecounter.setAttribute("id", message.like + message.id);
+  likecounter.setAttribute("id", message.id + "good");
   likecounter.textContent = message.like;
   imageDiv.appendChild(likecounter);
 
@@ -244,7 +244,7 @@ function buildReply(message) {
   pic.setAttribute("alt", "Sad Avocado");
   imageDiv.appendChild(pic);
   var dislikecounter = document.createElement("span");
-  dislikecounter.setAttribute("id", message.dislike + message.id);
+  dislikecounter.setAttribute("id", message.id + "bad");
   dislikecounter.textContent = message.dislike;
   imageDiv.appendChild(dislikecounter);
 

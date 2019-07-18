@@ -20,7 +20,7 @@ body
     position: 15px;
 	border: thin solid black;
   }
-  
+
 
 #title
 {
@@ -82,14 +82,14 @@ ul.menu {
 	padding: 0;
 	overflow: hidden;
 	background-color: #b0ddc0;
- 
+
 	/* box-shadow */
 	-webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 10px;
 	-moz-box-shadow: rgba(0,0,0,0.8) 0 0 10px;
 	box-shadow: rgba(0,0,0,0.8) 0 0 10px;
  }
- 
- 
+
+
  /*places logo on top of menubar in upperleft corner*/
  #logoHeader {
 	position: absolute;
@@ -97,24 +97,28 @@ ul.menu {
 	float: left;
 	height: 48px;
 	z-index: 4;
- 
+
 	/*animation for menu bar*/
 	-webkit-transition: all 1s;
 	-moz-transition: all 1s;
 	transition: all 1s;
 	cursor: pointer;
- 
+
  }
 
  #logoHeader:hover:not(.activeMenu) {
 	background-color: white;
  }
- 
+
  #logoHeader:hover {
 	transform: scale(1.075);
  }
- 
+
  /*floats menu bar options to the right*/
  #right {
 	 float: right;
+ }
+
+ ul {
+	 list-style-type: none;
  }

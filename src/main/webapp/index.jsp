@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="css/landing.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="js/landing.js"></script>
-  
+
   <!-- Imports Fonts -->
   <style>
     @import url('https://fonts.googleapis.com/css?family=Dosis|Open+Sans');
@@ -46,11 +46,9 @@
   <div id="grabSlice" class="button">
       <ul id="links">
         <li id ="center"><a href="/community.html">OUR COMMUNITY</a></li>
-        <!-- <br> -->
+        <li id = "center"><a href="/feed.html">FORUM</a></li>
         <li id ="center"><a href="/imaging.jsp">IS THIS AN AVOCADO?</a></li>
-        <!-- <br> -->
         <li id ="center"><a href="/map.html" >CAN I GROW AVOCADOS?</a></li>
-        <!-- <br> -->
         <li id ="center"><a href="/aboutus.html">BEHIND THE SITE</a></li>
       </ul>
   </div>
