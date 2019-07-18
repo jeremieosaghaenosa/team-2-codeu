@@ -17,6 +17,7 @@
         <ul id="navigation" class="menu">
             <li class="right"><a href="/">Home</a></li>
             <li class="right"><a href="/community.html">Our Community</a></li>
+            <li class="right"><a href="/feed.html">Forum</a></li>
             <li class="right"><a href="/imaging.jsp">Is This a..?</a></li>
             <li class="right"><a href="/map.html">Can I Grow..?</a></li>
             <li class="right"><a href="/aboutus.html">About Us</a></li>
@@ -26,20 +27,20 @@
     <div id="intro">
           <div id="yes"  style="display: none;">
             <h1> YEAH, THIS LOOKS LIKE AN AVOCADO </h1>
-            <iframe width="420" height="315" src="https://www.youtube.com/embed/k-cavEKkirc" frameborder="0" 
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/k-cavEKkirc" frameborder="0"
               allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
-      
+
           <div id="maybe"  style="display: none;">
             <h1> HAD TO GLANCE TWICE... </h1>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/bE4C8a48o1E" frameborder="0" allow="accelerometer; 
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/bE4C8a48o1E" frameborder="0" allow="accelerometer;
               encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
-      
+
           <div id="no"  style="display: none;">
             <h1> I DON'T SEE IT. </h1>
 
-            <iframe width="420" height="315" src="https://www.youtube.com/embed/umDr0mPuyQc" frameborder="0" allow="accelerometer; 
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/umDr0mPuyQc" frameborder="0" allow="accelerometer;
               encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
       <h1>
@@ -65,9 +66,9 @@
             for (Map.Entry entry : map.entrySet()) {
               out.println("<li>" + entry.getKey() + " -> " + entry.getValue() );
         }
-        out.println("</ul>"); 
+        out.println("</ul>");
       %>
-      
+
     </div>
 
   </body>
